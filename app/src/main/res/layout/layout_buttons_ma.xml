@@ -9,14 +9,14 @@
         android:id="@+id/buttonShow"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:onClick="showRecords"
         android:text="@string/show_button"
         android:visibility="visible" />
 
     <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="horizontal"
-        android:layout_>
+            android:orientation="horizontal">
 
         <Button
             android:id="@+id/buttonAdd"
