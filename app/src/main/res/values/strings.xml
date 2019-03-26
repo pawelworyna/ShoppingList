@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">ShoppingList</string>
+    <string name="show_button">SHOW</string>
+    <string name="add_button">ADD</string>
+    <string name="delete_button">DELETE</string>
+    <string name="return_button">RETURN</string>
+    <string name="confirm_button">CONFIRM</string>
+    <string name="title">Shopping List</string>
+</resources>
