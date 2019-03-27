@@ -6,4 +6,5 @@
     <string name="return_button">RETURN</string>
     <string name="confirm_button">CONFIRM</string>
     <string name="title">Shopping List</string>
+    <string name="imgdesc">Trolley</string>
 </resources>

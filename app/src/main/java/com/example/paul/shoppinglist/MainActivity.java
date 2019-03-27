@@ -87,13 +87,11 @@ public class MainActivity extends AppCompatActivity {
             super.onPostExecute(s);
             Toast.makeText(context, s, Toast.LENGTH_SHORT).show();
             try {
-                if(!s.isEmpty())
-               loadIntoListView(s);
-                else
-                    return;
-            } catch (JSONException e) {
+                loadIntoListView(s);
+            } catch (JSONException | NullPointerException  e) {
                 e.printStackTrace();
             }
+
         }
 
         private void loadIntoListView(String json) throws JSONException {
