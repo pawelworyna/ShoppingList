@@ -2,6 +2,7 @@ package com.example.paul.shoppinglist;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -32,6 +33,11 @@ public class MainActivity extends AppCompatActivity {
         listView = findViewById(R.id.listView);
 
 
+    }
+
+    public void addActivity(View view) {
+        Intent goToNextActivity = new Intent(getApplicationContext(), AddItemActivity.class);
+        startActivity(goToNextActivity);
     }
 
     public void showRecords(View view){
