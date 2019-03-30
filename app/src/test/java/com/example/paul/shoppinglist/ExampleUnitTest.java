@@ -13,5 +13,13 @@ public class ExampleUnitTest {
     @Test
     public void addition_isCorrect() {
         assertEquals(4, 2 + 2);
+
+    }
+
+    @Test
+    public void splitArray_isCorrect(){
+        String text  = "One Two";
+        String [] arr = text.split(" ");
+        assertEquals(2, arr.length);
     }
 }

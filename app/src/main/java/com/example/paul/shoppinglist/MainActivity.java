@@ -6,11 +6,20 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
+
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -20,9 +29,13 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.HashMap;
+import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
 
+    private String itemList = "";
+    private final String urlToDelete = "http://192.168.1.21:8080/ShoppingList/deleteFromDB.php";
     ListView listView;
     GetJSON getJSON;
     @Override
@@ -31,9 +44,50 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         listView = findViewById(R.id.listView);
-
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view,
+                                    int position, long id) {
+                itemList = (String) listView.getItemAtPosition( position );
+                Toast.makeText(getApplicationContext(),
+                        "Chosen: " + itemList, Toast.LENGTH_LONG)
+                        .show();
+            }
+        });
 
     }
+
+    public void deleteFromList(View view) {
+        if(!itemList.isEmpty()){
+            String [] tempArr = itemList.split(" ");
+            final String tempProductName = tempArr[0];
+            final String tempProductQuantity = tempArr[1];
+
+            StringRequest stringRequest=new StringRequest(Request.Method.POST, urlToDelete, new Response.Listener<String>() {
+                @Override
+                public void onResponse(String response) {
+                    Toast.makeText(getApplicationContext(), "Delete successfully",Toast.LENGTH_SHORT).show();
+                    Log.i("ConnectInfo" ,response);
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    Toast.makeText(getApplicationContext(), "Errors !", Toast.LENGTH_SHORT).show();
+                }
+            }){
+                @Override
+                protected Map<String, String> getParams()  {
+                    Map<String,String> parms =new HashMap<>();
+                    parms.put("product",tempProductName);
+                    parms.put("quantity",tempProductQuantity);
+                    return parms;
+                }
+            };
+            RequestQueue requestQueue= Volley.newRequestQueue(getApplicationContext());
+            requestQueue.add(stringRequest);
+        }
+    }
+
 
     public void addActivity(View view) {
         Intent goToNextActivity = new Intent(getApplicationContext(), AddItemActivity.class);
@@ -91,7 +145,7 @@ public class MainActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
-            Toast.makeText(context, s, Toast.LENGTH_SHORT).show();
+            //Toast.makeText(context, s, Toast.LENGTH_SHORT).show();
             try {
                 loadIntoListView(s);
             } catch (JSONException | NullPointerException  e) {
