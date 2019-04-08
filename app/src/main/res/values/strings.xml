@@ -8,4 +8,17 @@
     <string name="productLabel">product name:</string>
     <string name="quantityLabel">quantity:</string>
     <string name="priceLabel">price:</string>
+    <string name="title_activity_login">Sign in</string>
+    <string name="sign_up_activity_login">Sign up</string>
+    <string name="sign_up_text_activity_login">If you don\'t account
+        You can sign up now!</string>
+    <string name="sign_in_activity_login">Sign in</string>
+    <string name="name_activity_login">name: </string>
+    <string name="password_activity_login">password: </string>
+    <string name="empty_text">""</string>
+    <string name="title_activity_settings">Settings</string>
+    <string name="confirmButton">Apply</string>
+    <string name="ipAddress">Host IP address: </string>
+    <string name="btnSettings">Settings</string>
+
 </resources>

@@ -1,0 +1,80 @@
+package com.example.paul.shoppinglist;
+
+import android.content.Intent;
+import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
+import android.widget.EditText;
+import android.widget.Toast;
+
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+
+import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Map;
+
+public class LoginActivity extends AppCompatActivity {
+
+    private EditText editTextName;
+    private EditText editTextPassword;
+    private String url = "http://"+SettingsActivity.serverIPAddress+"/ShoppingListWeb/sign_in.php";
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_login);
+        editTextName = findViewById(R.id.editTextName);
+        editTextPassword = findViewById(R.id.editTextPassword);
+        Log.i("ip",SettingsActivity.serverIPAddress);
+
+
+    }
+
+    public void signIn(View view) {
+        final String userName = editTextName.getText().toString();
+        final String password = editTextPassword.getText().toString();
+        StringRequest stringRequest=new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                //Toast.makeText(getApplicationContext(), "Response: "+String.valueOf(response),Toast.LENGTH_SHORT).show();
+                Log.i("ConnectInfo" ,response);
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(getApplicationContext(), "Errors ! Incorrect IP address, login or password!", Toast.LENGTH_LONG).show();
+            }
+        }){
+            @Override
+            protected Map<String, String> getParams()  {
+                Map<String,String> params =new HashMap<>();
+                params.put("nameUsr",userName);
+                params.put("passwordUsr",password);
+                return params;
+            }
+        };
+        RequestQueue requestQueue= Volley.newRequestQueue(getApplicationContext());
+        requestQueue.add(stringRequest);
+        /*if (response == 1) {
+            Intent moveToMainActivity = new Intent(getApplicationContext(), MainActivity.class);
+            moveToMainActivity.putExtra("userName", userName);
+        }*/
+    }
+
+    /*public void signUp(View view) {
+        Intent moveToSignUp = new Intent(getApplicationContext(),class.);
+        startActivity(moveToSignUp);
+    }*/
+
+    public void moveToSettings(View view) {
+        Intent toSettings = new Intent(getApplicationContext(), SettingsActivity.class);
+        startActivity(toSettings);
+    }
+}

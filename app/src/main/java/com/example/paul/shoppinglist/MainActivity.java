@@ -35,7 +35,7 @@ import java.util.Map;
 public class MainActivity extends AppCompatActivity {
 
     private String itemList = "";
-    private final String urlToDelete = "http://192.168.1.21:8080/ShoppingList/deleteFromDB.php";
+    private final String urlToDelete = "http://"+SettingsActivity.serverIPAddress+"/ShoppingListWeb/deleteFromDB.php";
     ListView listView;
     GetJSON getJSON;
     @Override
@@ -95,7 +95,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void showRecords(View view){
-        getJSON = new GetJSON("http://192.168.1.21:8080/ShoppingList/index.php", this.getApplicationContext());
+        getJSON = new GetJSON("http://"+SettingsActivity.serverIPAddress+"/ShoppingListWeb/index.php", this.getApplicationContext());
         getJSON.execute();
     }
 
