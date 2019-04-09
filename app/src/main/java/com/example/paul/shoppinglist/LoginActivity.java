@@ -15,6 +15,8 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.HashMap;
@@ -33,6 +35,11 @@ public class LoginActivity extends AppCompatActivity {
         editTextName = findViewById(R.id.editTextName);
         editTextPassword = findViewById(R.id.editTextPassword);
         Log.i("ip",SettingsActivity.serverIPAddress);
+        Log.i("logged", String.valueOf(Logger.isLogged()));
+        if (Logger.isLogged()) {
+            Intent moveToMainActivty = new Intent(getApplicationContext(), MainActivity.class);
+            startActivity(moveToMainActivty);
+        }
 
 
     }
@@ -43,8 +50,26 @@ public class LoginActivity extends AppCompatActivity {
         StringRequest stringRequest=new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                //Toast.makeText(getApplicationContext(), "Response: "+String.valueOf(response),Toast.LENGTH_SHORT).show();
                 Log.i("ConnectInfo" ,response);
+                //try read jsonarray
+                try {
+                    JSONObject jsonObject = new JSONObject(response);
+                    int statusUsr = jsonObject.getInt("status");
+                    int usrId = jsonObject.getInt("usr_id");
+                    if (statusUsr == 1 && usrId != -1) {
+                        new Logger();
+                        Intent moveToMainActivty = new Intent(getApplicationContext(), MainActivity.class);
+                        String data = userName + " " + usrId;
+                        moveToMainActivty.putExtra("data", data);
+                        startActivity(moveToMainActivty);
+
+                    }
+
+                } catch (JSONException jsne) {
+                    jsne.printStackTrace();
+                }
+
+
             }
         }, new Response.ErrorListener() {
             @Override
