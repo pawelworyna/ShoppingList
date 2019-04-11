@@ -23,7 +23,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:onClick="deleteFromList"
+            android:onClick="signUp"
             android:text="@string/sign_up_activity_login" />
     </LinearLayout>
 </LinearLayout>

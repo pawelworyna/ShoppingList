@@ -15,7 +15,6 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -32,7 +31,8 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        editTextName = findViewById(R.id.editTextName);
+
+        editTextName = findViewById(R.id.editTextNameR);
         editTextPassword = findViewById(R.id.editTextPassword);
         Log.i("ip",SettingsActivity.serverIPAddress);
         Log.i("logged", String.valueOf(Logger.isLogged()));
@@ -87,16 +87,13 @@ public class LoginActivity extends AppCompatActivity {
         };
         RequestQueue requestQueue= Volley.newRequestQueue(getApplicationContext());
         requestQueue.add(stringRequest);
-        /*if (response == 1) {
-            Intent moveToMainActivity = new Intent(getApplicationContext(), MainActivity.class);
-            moveToMainActivity.putExtra("userName", userName);
-        }*/
+
     }
 
-    /*public void signUp(View view) {
-        Intent moveToSignUp = new Intent(getApplicationContext(),class.);
+    public void signUp(View view) {
+        Intent moveToSignUp = new Intent(getApplicationContext(), RegisterActivity.class);
         startActivity(moveToSignUp);
-    }*/
+    }
 
     public void moveToSettings(View view) {
         Intent toSettings = new Intent(getApplicationContext(), SettingsActivity.class);

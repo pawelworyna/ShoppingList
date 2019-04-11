@@ -20,5 +20,9 @@
     <string name="confirmButton">Apply</string>
     <string name="ipAddress">Host IP address: </string>
     <string name="btnSettings">Settings</string>
+    <string name="emailLabel">Email: </string>
+    <string name="passwordLabel">Password: </string>
+    <string name="nameLabel">Name: </string>
+
 
 </resources>
