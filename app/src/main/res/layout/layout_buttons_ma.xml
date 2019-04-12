@@ -13,6 +13,29 @@
         android:text="@string/show_button"
         android:visibility="visible" />
 
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/buttonWTB"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:onClick="setProductToWTB"
+            android:text="@string/buttonWtb" />
+
+        <Button
+            android:id="@+id/buttonBought"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:onClick="deleteFromList"
+            android:text="@string/buttonBought" />
+    </LinearLayout>
+
     <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"

@@ -36,6 +36,7 @@ public class MainActivity extends AppCompatActivity {
 
     private String itemList = "";
     private final String urlToDelete = "http://"+SettingsActivity.serverIPAddress+"/ShoppingListWeb/deleteFromDB.php";
+    private final String urlProductWTB = "http://"+SettingsActivity.serverIPAddress+"/ShoppingListWeb/wtb_product.php";
     ListView listView;
     GetJSON getJSON;
     @Override
@@ -168,8 +169,21 @@ public class MainActivity extends AppCompatActivity {
                 //getting json object from the json array
                 JSONObject obj = jsonArray.getJSONObject(i);
 
-                //getting the name from the json object and putting it inside string array
-                products[i] = obj.getString("product") + " " + obj.getString("quantity");
+                //show ppl which wtb product
+                if(obj.getString("status").equals("1")){
+                    products[i] = obj.getString("product") + " " + obj.getString("quantity")+" want to buy: "+obj.getString("userName");
+                }
+                //show ppl which bought product
+                else if(obj.getString("status").equals("2")){
+                    products[i] = obj.getString("product") + " " + obj.getString("quantity")+" bought by: "+obj.getString("userName");
+                }
+                //show products
+                else {
+
+
+                    //getting the name from the json object and putting it inside string array
+                    products[i] = obj.getString("product") + " " + obj.getString("quantity");
+                }
             }
 
             //the array adapter to load data into list
@@ -177,6 +191,41 @@ public class MainActivity extends AppCompatActivity {
 
             //attaching adapter to listview
             listView.setAdapter(arrayAdapter);
+        }
+    }
+
+    public void setProductToWTB (View view) {
+        if (!itemList.isEmpty() && !LoginActivity.userData.isEmpty()) {
+            String[] tempArr = itemList.split(" ");
+            String[] tempArrUsr = LoginActivity.userData.split(" ");
+            final String tempProductName = tempArr[0];
+            final String tempProductQuantity = tempArr[1];
+            final String tempUsrID = tempArrUsr[1];
+            Log.i("Data", tempProductName+" "+tempProductQuantity+" "+tempUsrID);
+            StringRequest stringRequest = new StringRequest(Request.Method.POST, urlProductWTB, new Response.Listener<String>() {
+                @Override
+                public void onResponse(String response) {
+                    Log.i("ConnectInfo", response);
+
+
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_LONG).show();
+                }
+            }) {
+                @Override
+                protected Map<String, String> getParams() {
+                    Map<String, String> params = new HashMap<>();
+                    params.put("productName", tempProductName);
+                    params.put("productQuantity", tempProductQuantity);
+                    params.put("userId", tempUsrID);
+                    return params;
+                }
+            };
+            RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
+            requestQueue.add(stringRequest);
         }
     }
 }

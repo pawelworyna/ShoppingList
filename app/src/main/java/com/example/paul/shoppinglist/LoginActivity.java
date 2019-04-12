@@ -26,6 +26,7 @@ public class LoginActivity extends AppCompatActivity {
     private EditText editTextName;
     private EditText editTextPassword;
     private String url = "http://"+SettingsActivity.serverIPAddress+"/ShoppingListWeb/sign_in.php";
+    protected static String userData;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,8 +60,7 @@ public class LoginActivity extends AppCompatActivity {
                     if (statusUsr == 1 && usrId != -1) {
                         new Logger();
                         Intent moveToMainActivty = new Intent(getApplicationContext(), MainActivity.class);
-                        String data = userName + " " + usrId;
-                        moveToMainActivty.putExtra("data", data);
+                        userData = userName + " " + usrId;
                         startActivity(moveToMainActivty);
 
                     }
@@ -99,4 +99,6 @@ public class LoginActivity extends AppCompatActivity {
         Intent toSettings = new Intent(getApplicationContext(), SettingsActivity.class);
         startActivity(toSettings);
     }
+
+
 }
