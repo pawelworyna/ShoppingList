@@ -179,19 +179,19 @@ public class MainActivity extends AppCompatActivity {
 
                 //show ppl which wtb product
                 if(obj.getString("status").equals("1")){
-                    products[i] = obj.getString("product") + " " + obj.getString("quantity")+" want to buy: "+obj.getString("userName");
+                    products[i] = obj.getString("product") + " " + obj.getString("quantity").replaceAll("\\s+","")+" want to buy: "+obj.getString("userName");
                     colorItemList.add("1");
                 }
                 //show ppl which bought product
                 else if(obj.getString("status").equals("2")){
-                    products[i] = obj.getString("product") + " " + obj.getString("quantity")+" bought by: "+obj.getString("userName");
+                    products[i] = obj.getString("product") + " " + obj.getString("quantity").replaceAll("\\s+","")+" bought by: "+obj.getString("userName");
                     colorItemList.add("2");
                 }
                 //show products
                 else {
 
                     //getting the name from the json object and putting it inside string array
-                    products[i] = obj.getString("product") + " " + obj.getString("quantity");
+                    products[i] = obj.getString("product") + " " + obj.getString("quantity").replaceAll("\\s+","");
                     colorItemList.add("0");
                 }
             }
@@ -219,22 +219,6 @@ public class MainActivity extends AppCompatActivity {
                     return view;
                 }
             };
-/*
-            //color the items
-            for(int position = 0; position < colorItemList.size(); position++) {
-                if (colorItemList.get(position).equals("1")) {
-                    listView.getChildAt(position).setBackgroundColor(
-                            Color.parseColor("#FFFF33"));
-                } else if(colorItemList.get(position).equals("2")){
-                    listView.getChildAt(position).setBackgroundColor(
-                            Color.parseColor("#50C878"));
-                } else {
-                    listView.getChildAt(position).setBackgroundColor(
-                            Color.parseColor("#50C878"));
-                }
-            }
-
-            */
             //attaching adapter to listview
             listView.setAdapter(arrayAdapter);
 
