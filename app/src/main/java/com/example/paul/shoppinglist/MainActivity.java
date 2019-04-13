@@ -3,15 +3,18 @@ package com.example.paul.shoppinglist;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -29,6 +32,7 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -37,6 +41,7 @@ public class MainActivity extends AppCompatActivity {
     private String itemList = "";
     private final String urlToDelete = "http://"+SettingsActivity.serverIPAddress+"/ShoppingListWeb/deleteFromDB.php";
     private final String urlProductWTB = "http://"+SettingsActivity.serverIPAddress+"/ShoppingListWeb/wtb_product.php";
+    private final String urlProductBought = "http://"+SettingsActivity.serverIPAddress+"/ShoppingListWeb/bought_product.php";
     ListView listView;
     GetJSON getJSON;
     @Override
@@ -163,6 +168,9 @@ public class MainActivity extends AppCompatActivity {
             //creating a string array for listview
             String[] products = new String[jsonArray.length()];
 
+            //creating array list for color the item in position
+           final ArrayList<String> colorItemList = new ArrayList<String>();
+
             //looping through all the elements in json array
             for (int i = 0; i < jsonArray.length(); i++) {
 
@@ -172,25 +180,65 @@ public class MainActivity extends AppCompatActivity {
                 //show ppl which wtb product
                 if(obj.getString("status").equals("1")){
                     products[i] = obj.getString("product") + " " + obj.getString("quantity")+" want to buy: "+obj.getString("userName");
+                    colorItemList.add("1");
                 }
                 //show ppl which bought product
                 else if(obj.getString("status").equals("2")){
                     products[i] = obj.getString("product") + " " + obj.getString("quantity")+" bought by: "+obj.getString("userName");
+                    colorItemList.add("2");
                 }
                 //show products
                 else {
 
-
                     //getting the name from the json object and putting it inside string array
                     products[i] = obj.getString("product") + " " + obj.getString("quantity");
+                    colorItemList.add("0");
                 }
             }
 
-            //the array adapter to load data into list
-            ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(context, android.R.layout.simple_list_item_1, products);
 
+
+            //the array adapter to load data into list
+            ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(context, android.R.layout.simple_list_item_1, products){
+
+                @Override
+                public View getView(int position, View convertView, ViewGroup parent) {
+                    View view =super.getView(position, convertView, parent);
+
+                    TextView textView=(TextView) view.findViewById(android.R.id.text1);
+                    if (colorItemList.get(position).equals("1")) {
+                        textView.setTextColor(Color.parseColor("#FFA500"));
+                    } else if(colorItemList.get(position).equals("2")){
+                        textView.setTextColor(Color.parseColor("#50C878"));
+                    } else {
+                        textView.setTextColor(Color.parseColor("#781C2E"));
+                    }
+
+
+
+                    return view;
+                }
+            };
+/*
+            //color the items
+            for(int position = 0; position < colorItemList.size(); position++) {
+                if (colorItemList.get(position).equals("1")) {
+                    listView.getChildAt(position).setBackgroundColor(
+                            Color.parseColor("#FFFF33"));
+                } else if(colorItemList.get(position).equals("2")){
+                    listView.getChildAt(position).setBackgroundColor(
+                            Color.parseColor("#50C878"));
+                } else {
+                    listView.getChildAt(position).setBackgroundColor(
+                            Color.parseColor("#50C878"));
+                }
+            }
+
+            */
             //attaching adapter to listview
             listView.setAdapter(arrayAdapter);
+
+
         }
     }
 
@@ -203,6 +251,41 @@ public class MainActivity extends AppCompatActivity {
             final String tempUsrID = tempArrUsr[1];
             Log.i("Data", tempProductName+" "+tempProductQuantity+" "+tempUsrID);
             StringRequest stringRequest = new StringRequest(Request.Method.POST, urlProductWTB, new Response.Listener<String>() {
+                @Override
+                public void onResponse(String response) {
+                    Log.i("ConnectInfo", response);
+
+
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_LONG).show();
+                }
+            }) {
+                @Override
+                protected Map<String, String> getParams() {
+                    Map<String, String> params = new HashMap<>();
+                    params.put("productName", tempProductName);
+                    params.put("productQuantity", tempProductQuantity);
+                    params.put("userId", tempUsrID);
+                    return params;
+                }
+            };
+            RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
+            requestQueue.add(stringRequest);
+        }
+    }
+
+    public void setProductToBought (View view) {
+        if (!itemList.isEmpty() && !LoginActivity.userData.isEmpty()) {
+            String[] tempArr = itemList.split(" ");
+            String[] tempArrUsr = LoginActivity.userData.split(" ");
+            final String tempProductName = tempArr[0];
+            final String tempProductQuantity = tempArr[1];
+            final String tempUsrID = tempArrUsr[1];
+            Log.i("Data", tempProductName+" "+tempProductQuantity+" "+tempUsrID);
+            StringRequest stringRequest = new StringRequest(Request.Method.POST, urlProductBought, new Response.Listener<String>() {
                 @Override
                 public void onResponse(String response) {
                     Log.i("ConnectInfo", response);
