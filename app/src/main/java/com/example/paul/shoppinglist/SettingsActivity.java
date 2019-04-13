@@ -24,6 +24,8 @@ public class SettingsActivity extends AppCompatActivity {
     public void setIpAddress(View view) {
         serverIPAddress = editIPAddress.getText().toString();
         editIPAddress.setText(serverIPAddress);
+        Intent moveToLoginActivity = new Intent(getApplicationContext(), LoginActivity.class);
+        startActivity(moveToLoginActivity);
     }
 
     @Override
