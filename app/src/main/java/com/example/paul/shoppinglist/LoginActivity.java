@@ -74,6 +74,7 @@ public class LoginActivity extends AppCompatActivity {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
+                Log.i("errorConnection", error.toString());
                 Toast.makeText(getApplicationContext(), "Errors ! Incorrect IP address, login or password!", Toast.LENGTH_LONG).show();
             }
         }){
