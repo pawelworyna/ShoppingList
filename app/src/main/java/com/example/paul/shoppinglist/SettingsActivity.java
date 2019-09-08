@@ -8,7 +8,7 @@ import android.widget.EditText;
 
 public class SettingsActivity extends AppCompatActivity {
 
-    protected static String serverIPAddress = "192.168.43.76:80";
+    protected static String serverIPAddress = "https://listazakupowapka.000webhostapp.com";
     private EditText editIPAddress;
 
     @Override

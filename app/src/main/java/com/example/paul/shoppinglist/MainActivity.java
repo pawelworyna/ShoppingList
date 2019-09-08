@@ -39,9 +39,9 @@ import java.util.Map;
 public class MainActivity extends AppCompatActivity {
 
     private String itemList = "";
-    private final String urlToDelete = "http://"+SettingsActivity.serverIPAddress+"/ShoppingListWeb/deleteFromDB.php";
-    private final String urlProductWTB = "http://"+SettingsActivity.serverIPAddress+"/ShoppingListWeb/wtb_product.php";
-    private final String urlProductBought = "http://"+SettingsActivity.serverIPAddress+"/ShoppingListWeb/bought_product.php";
+    private final String urlToDelete = SettingsActivity.serverIPAddress+"/ShoppingListWeb/deleteFromDB.php";
+    private final String urlProductWTB = SettingsActivity.serverIPAddress+"/ShoppingListWeb/wtb_product.php";
+    private final String urlProductBought = SettingsActivity.serverIPAddress+"/ShoppingListWeb/bought_product.php";
     ListView listView;
     GetJSON getJSON;
     @Override
@@ -102,7 +102,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void showRecords(View view){
-        getJSON = new GetJSON("http://"+SettingsActivity.serverIPAddress+"/ShoppingListWeb/index.php", this.getApplicationContext());
+        getJSON = new GetJSON(SettingsActivity.serverIPAddress+"/ShoppingListWeb/index.php", this.getApplicationContext());
         getJSON.execute();
     }
 

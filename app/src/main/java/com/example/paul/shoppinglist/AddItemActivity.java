@@ -23,7 +23,7 @@ public class AddItemActivity extends AppCompatActivity {
     TextView productName;
     TextView productQuantity;
     TextView productPrice;
-    private final String url = "http://"+SettingsActivity.serverIPAddress+"/ShoppingListWeb/insertDB.php";
+    private final String url = SettingsActivity.serverIPAddress+"/ShoppingListWeb/insertDB.php";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

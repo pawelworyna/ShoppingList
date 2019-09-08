@@ -23,7 +23,7 @@ import java.util.Map;
 
 public class RegisterActivity extends AppCompatActivity {
 
-    private String url = "http://"+SettingsActivity.serverIPAddress+"/ShoppingListWeb/sign_up.php";
+    private String url = SettingsActivity.serverIPAddress+"/ShoppingListWeb/sign_up.php";
     EditText userName;
     EditText userPassword;
     EditText userEmail;

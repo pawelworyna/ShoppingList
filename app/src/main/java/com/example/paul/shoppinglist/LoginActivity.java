@@ -25,7 +25,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private EditText editTextName;
     private EditText editTextPassword;
-    private String url = "http://"+SettingsActivity.serverIPAddress+"/ShoppingListWeb/sign_in.php";
+    private String url = SettingsActivity.serverIPAddress+"/ShoppingListWeb/sign_in.php";
     protected static String userData;
 
     @Override
