@@ -59,7 +59,7 @@ public class AddItemActivity extends AppCompatActivity {
             protected Map<String, String> getParams()  {
                 Map<String,String> parms =new HashMap<>();
                 parms.put("product",tempProductName);
-                parms.put("quantity",tempProductQuantity.replaceAll("\\s+",""));
+                parms.put("quantity",tempProductQuantity);
                 parms.put("price",tempProductPrice);
                 return parms;
             }

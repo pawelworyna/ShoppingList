@@ -66,7 +66,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void deleteFromList(View view) {
         if(!itemList.isEmpty()){
-            String [] tempArr = itemList.split(" ");
+            String [] tempArr = itemList.split("\\t");
             final String tempProductName = tempArr[0];
             final String tempProductQuantity = tempArr[1];
 
@@ -177,21 +177,21 @@ public class MainActivity extends AppCompatActivity {
                 //getting json object from the json array
                 JSONObject obj = jsonArray.getJSONObject(i);
 
-                //show ppl which wtb product
+                //show ppl who wtb product
                 if(obj.getString("status").equals("1")){
-                    products[i] = obj.getString("product") + " " + obj.getString("quantity").replaceAll("\\s+","")+" want to buy: "+obj.getString("userName");
+                    products[i] = obj.getString("product") + "\t" + obj.getString("quantity")+"\t -> want to buy:\t"+obj.getString("userName");
                     colorItemList.add("1");
                 }
-                //show ppl which bought product
+                //show ppl who bought product
                 else if(obj.getString("status").equals("2")){
-                    products[i] = obj.getString("product") + " " + obj.getString("quantity").replaceAll("\\s+","")+" bought by: "+obj.getString("userName");
+                    products[i] = obj.getString("product") + "\t" + obj.getString("quantity")+"\t -> bought by:\t"+obj.getString("userName");
                     colorItemList.add("2");
                 }
                 //show products
                 else {
 
                     //getting the name from the json object and putting it inside string array
-                    products[i] = obj.getString("product") + " " + obj.getString("quantity").replaceAll("\\s+","");
+                    products[i] = obj.getString("product") + "\t" + obj.getString("quantity");
                     colorItemList.add("0");
                 }
             }
@@ -228,7 +228,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void setProductToWTB (View view) {
         if (!itemList.isEmpty() && !LoginActivity.userData.isEmpty()) {
-            String[] tempArr = itemList.split(" ");
+            String[] tempArr = itemList.split("\\t");
             String[] tempArrUsr = LoginActivity.userData.split(" ");
             final String tempProductName = tempArr[0];
             final String tempProductQuantity = tempArr[1];
@@ -263,7 +263,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void setProductToBought (View view) {
         if (!itemList.isEmpty() && !LoginActivity.userData.isEmpty()) {
-            String[] tempArr = itemList.split(" ");
+            String[] tempArr = itemList.split("\\t");
             String[] tempArrUsr = LoginActivity.userData.split(" ");
             final String tempProductName = tempArr[0];
             final String tempProductQuantity = tempArr[1];
